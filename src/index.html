@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <h2 id="title">Enter your grades below:</h2>
+  <div id="user_input"> 
+    <table id="gradeTable">
+      <tr>
+        <th>Assignment</th>
+        <th>Grade (%)</th>
+        <th>Weight</th>
+      </tr>
+      <tbody id="row">
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="number" name="grade"></td>
+          <td><input type="number" name="weight"></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="number" name="grade"></td>
+          <td><input type="number" name="weight"></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="number" name="grade"></td>
+          <td><input type="number" name="weight"></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="number" name="grade"></td>
+          <td><input type="number" name="weight"></td>
+        </tr>
+      </tbody>
+
+    </table>
+    <button id="add_row">Add Row</button>
+    <button id="remove_row">Remove Row</button>
+    <button id="calculate">Calculate</button>
+  </div>
+  <div>
+    <h2 id="title">Previous Calculation:</h2>
+  </div>
+</body>
+<script src="main.js" type="module"></script>
+</html>
