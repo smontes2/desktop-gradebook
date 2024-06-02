@@ -5,13 +5,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const rowContainer = document.getElementById("row");
   const grade = document.getElementsByName("grade");
   const weight = document.getElementsByName("weight");
+  const assignment = document.getElementsByName("assignment");
+  const gradeResult = document.getElementById("gradeResult");
+  const prev_calc = document.getElementsByName("prev_calc");
 
   function calculateTotal(){
-    grade.forEach((input, index) => {
-      console.log(`Input ${index + 1}:`, input.value);
-    });
-  }
 
+    const gradesAndWeights = [];
+
+    grade.forEach((input, index) => {
+      const gradeValue = parseFloat(input.value);
+      const weightValue = parseFloat(weight[index].value);
+      if(!isNaN(gradeValue) && !isNaN(weightValue)){
+        gradesAndWeights.push([gradeValue, weightValue]);
+      }
+    });
+
+    invoke("calculate_weighted_grade", {grades: gradesAndWeights}).then(result => {
+      const output = document.createElement("h3");
+      output.textContent = result;
+      gradeResult.appendChild(output);
+    })
+  }
 
   function addRow() {
     const newRow = document.createElement("tr");
@@ -43,9 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function clear(){
+    grade.forEach((input, index) =>{
+      input.value = "";
+      weight[index].value = "";
+      assignment[index].value = "";
+    });    
+  }
+
   document.getElementById("remove_row").addEventListener("click", function(){
     removeRow(-1);
   });
+
+  document.getElementById("clear").addEventListener("click", clear);
 
   document.getElementById("add_row").addEventListener("click", addRow);
 
