@@ -1,17 +1,17 @@
 const { invoke } = window.__TAURI__.tauri;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const gradeTable = document.getElementById("gradeTable");
   const rowContainer = document.getElementById("row");
   const grade = document.getElementsByName("grade");
   const weight = document.getElementsByName("weight");
   const assignment = document.getElementsByName("assignment");
-  const gradeResult = document.getElementById("gradeResult");
-  const prev_calc = document.getElementsByName("prev_calc");
+  const calculatedLetterGrade = document.getElementById("calculatedLetterGrade")
+  const calculatedNumberGrade = document.getElementById("calculatedNumberGrade");
 
   function calculateTotal(){
 
     const gradesAndWeights = [];
+    let letterGrade = 0;
 
     grade.forEach((input, index) => {
       const gradeValue = parseFloat(input.value);
@@ -22,9 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     invoke("calculate_weighted_grade", {grades: gradesAndWeights}).then(result => {
-      const output = document.createElement("h3");
-      output.textContent = result;
-      gradeResult.appendChild(output);
+      calculatedNumberGrade.value = result;
+      letterGrade = result;
+      return invoke("calculate_letter_grade", {num: letterGrade}).then(letterGradeResult => {
+        calculatedLetterGrade.value = letterGradeResult;
+      })
     })
   }
 
@@ -64,6 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
       weight[index].value = "";
       assignment[index].value = "";
     });    
+    
+    calculatedLetterGrade.value = "";
+    calculatedNumberGrade.value = "";
   }
 
   document.getElementById("remove_row").addEventListener("click", function(){
