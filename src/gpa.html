@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="sidenav">
+      <a href="index.html">Weighted</a>
+      <a href="gpa.html">GPA</a>
+      <a href="#Grades">Grades</a>
+    </div>
+    <div class="main">
+      <h2>Calculate Your GPA:</h2>
+      <div id="userInput">
+        <table>
+          <tr>
+            <th>Class</th>
+            <th>Grade</th>
+            <th>Credits</th>
+          </tr>
+          <tbody id="row">
+            <tr>
+              <td><input type="text" name="class" /></td>
+              <td><select name="grades" name="grades" style="width: 150px;">
+				<option value="-">-</option>
+				<option value="A">A</option>
+				<option value="A-">A-</option>
+				<option value="B+">B+</option>
+				<option value="B">B</option>
+				<option value="B-">B-</option>
+				<option value="C+">C+</option>
+				<option value="C">C</option>
+				<option value="C-">C-</option>
+				<option value="D+">D</option>
+				<option value="D">D</option>
+				<option value="F">F</option>
+			  </select></td>
+              <td><input type="number" name="credits" /></td>
+            </tr>
+            <tr>
+              <td><input type="text" name="class" /></td>
+              <td><select name="grades" name="grades" style="width: 150px;">
+				<option value="-">-</option>
+				<option value="A">A</option>
+				<option value="A-">A-</option>
+				<option value="B+">B+</option>
+				<option value="B">B</option>
+				<option value="B-">B-</option>
+				<option value="C+">C+</option>
+				<option value="C">C</option>
+				<option value="C-">C-</option>
+				<option value="D+">D</option>
+				<option value="D">D</option>
+				<option value="F">F</option>
+			  </select></td>              
+			  <td><input type="number" name="credits" /></td>
+            </tr>
+            <tr>
+              <td><input type="text" name="class" /></td>
+              <td><select name="grades" name="grades" style="width: 150px;">
+				<option value="-">-</option>
+				<option value="A">A</option>
+				<option value="A-">A-</option>
+				<option value="B+">B+</option>
+				<option value="B">B</option>
+				<option value="B-">B-</option>
+				<option value="C+">C+</option>
+				<option value="C">C</option>
+				<option value="C-">C-</option>
+				<option value="D+">D</option>
+				<option value="D">D</option>
+				<option value="F">F</option>
+			  </select></td>              
+			  <td><input type="number" name="credits" /></td>
+            </tr>
+            <tr>
+              <td><input type="text" name="class" /></td>
+              <td><select name="grades" name="grades" style="width: 150px;">
+				<option value="-">-</option>
+				<option value="A">A</option>
+				<option value="A-">A-</option>
+				<option value="B+">B+</option>
+				<option value="B">B</option>
+				<option value="B-">B-</option>
+				<option value="C+">C+</option>
+				<option value="C">C</option>
+				<option value="C-">C-</option>
+				<option value="D+">D</option>
+				<option value="D">D</option>
+				<option value="F">F</option>
+			  </select></td>              
+			  <td><input type="number" name="credits" /></td>
+            </tr>
+          </tbody>
+        </table>
+		<button id="addRow">Add Row</button>
+		<button id="deleteRow">Remove Row</button>
+		<button id="clear">Clear</button>
+		<button id="calculate">Calculate</button>
+      </div>
+	  <div>
+		<h3>Previous Semester GPA (optional): </h3>
+		<input type="number" id="prevSemGPA">
+	  </div>
+	  <div>
+		<h3 id="gradeResult">GPA:</h3>
+		<input id="calculatedGPA" type="text" readonly />
+		<h3 id="totalCredits">Total Credits:</h3>
+		<input id="totalCreditsInput" type="text" readonly>
+	  </div>
+    </div>
+  </body>
+  <script type="module" src="gpa.js"></script>t
+</html>

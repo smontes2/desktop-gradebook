@@ -58,9 +58,58 @@ fn calculate_letter_grade(num: f32) -> String{
 
 }
 
+#[tauri::command]
+fn calculate_gpa(gpa_data: Vec<(String, f32)>) -> (String, String){
+    let mut letter_grade_worth ;
+    let mut total = 0.0;
+    let mut total_credits = 0.0;
+
+    for (grades, credits) in gpa_data.iter(){
+        if grades == "A"{
+            letter_grade_worth = 4.0;
+        }
+        else if grades == "A-"{
+            letter_grade_worth = 3.7;
+        }
+        else if grades == "B+"{
+            letter_grade_worth = 3.3;
+        }
+        else if grades == "B"{
+            letter_grade_worth = 3.0;
+        }
+        else if grades == "B-"{
+            letter_grade_worth = 2.7;
+        }
+        else if grades == "C+"{
+            letter_grade_worth = 2.3;
+        }
+        else if grades == "C"{
+            letter_grade_worth = 2.0;
+        }
+        else if grades == "C-"{
+            letter_grade_worth = 1.7;
+        }
+        else if grades == "D+"{
+            letter_grade_worth = 1.3;
+        }
+        else if grades == "D"{
+            letter_grade_worth = 1.0;
+        }
+        else{
+            letter_grade_worth = 0.0;
+        }
+
+        total_credits += credits;
+        total += letter_grade_worth * credits;
+    }
+
+    total = total / total_credits;
+    return (total.to_string(), total_credits.to_string());
+    
+}
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![calculate_weighted_grade, calculate_letter_grade])
+        .invoke_handler(tauri::generate_handler![calculate_weighted_grade, calculate_letter_grade, calculate_gpa])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

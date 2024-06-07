@@ -1,57 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Document</title>
-</head>
-<body>
-  <h2 id="title">Enter your grades below:</h2>
-  <div id="user_input"> 
-    <table id="gradeTable">
-      <tr>
-        <th>Assignment</th>
-        <th>Grade (%)</th>
-        <th>Weight</th>
-      </tr>
-      <tbody id="row">
-        <tr>
-          <td><input type="text" name="assignment"></td>
-          <td><input type="number" name="grade"></td>
-          <td><input type="number" name="weight"></td>
-        </tr>
-        <tr>
-          <td><input type="text" name="assignment"></td>
-          <td><input type="number" name="grade"></td>
-          <td><input type="number" name="weight"></td>
-        </tr>
-        <tr>
-          <td><input type="text" name="assignment"></td>
-          <td><input type="number" name="grade"></td>
-          <td><input type="number" name="weight"></td>
-        </tr>
-        <tr>
-          <td><input type="text" name="assignment"></td>
-          <td><input type="number" name="grade"></td>
-          <td><input type="number" name="weight"></td>
-        </tr>
-      </tbody>
-
-    </table>
-    <button id="add_row">Add Row</button>
-    <button id="remove_row">Remove Row</button>
-    <button id="clear">Clear</button>
-    <button id="calculate">Calculate</button>
-  </div>
-  <div>
-    <h3 id="gradeResult">Grade: </h3>
-    <input id="calculatedNumberGrade" type="text" readonly>
-    <input id="calculatedLetterGrade" type="text" readonly>
-  </div>
-  <div>
-    <h2 id="title" name="prev_calc">Previous Calculation:</h2>
-  </div>
-</body>
-<script src="main.js" type="module"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="sidenav">
+      <a href="index.html">Weighted</a>
+      <a href="gpa.html">GPA</a>
+      <a href="#Grades">Grades</a>
+    </div>
+    <div class="main">
+      <h2 id="title">Enter your grades below:</h2>
+      <div id="userInput">
+        <div id="classInput">
+          <label for="className">Class: </label>
+          <input type="text" id="className" />
+        </div>
+        <br />
+        <div id="user_input">
+          <table id="gradeTable">
+            <tr>
+              <th>Assignment</th>
+              <th>Grade (%)</th>
+              <th>Weight</th>
+            </tr>
+            <tbody id="row">
+              <tr>
+                <td><input type="text" name="assignment" /></td>
+                <td><input type="number" name="grade" /></td>
+                <td><input type="number" name="weight" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" name="assignment" /></td>
+                <td><input type="number" name="grade" /></td>
+                <td><input type="number" name="weight" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" name="assignment" /></td>
+                <td><input type="number" name="grade" /></td>
+                <td><input type="number" name="weight" /></td>
+              </tr>
+              <tr>
+                <td><input type="text" name="assignment" /></td>
+                <td><input type="number" name="grade" /></td>
+                <td><input type="number" name="weight" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <button id="add_row">Add Row</button>
+          <button id="remove_row">Remove Row</button>
+          <button id="clear">Clear</button>
+          <button id="calculate">Calculate</button>
+        </div>
+        <div>
+          <h3 id="gradeResult">Grade:</h3>
+          <input id="calculatedNumberGrade" type="text" readonly />
+          <input id="calculatedLetterGrade" type="text" readonly />
+        </div>
+        <br />
+        <div id="addToGrades">
+          <button id="addToGradesBtn">Add To Grades</button>
+        </div>
+        <br />
+      </div>
+      <div>
+        <h2 id="title" id="prevCalc">Previous Calculation:</h2>
+      </div>
+    </div>
+  </body>
+  <script src="main.js" type="module"></script>
 </html>
