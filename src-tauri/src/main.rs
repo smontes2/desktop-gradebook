@@ -59,10 +59,15 @@ fn calculate_letter_grade(num: f32) -> String{
 }
 
 #[tauri::command]
-fn calculate_gpa(gpa_data: Vec<(String, f32)>) -> (String, String){
+fn calculate_gpa(gpa_data: Vec<(String, f32)>, old_qp: f32, old_credits: f32) -> (String, String){
     let mut letter_grade_worth ;
     let mut total = 0.0;
     let mut total_credits = 0.0;
+
+    if old_qp != 0.0 && old_credits != 0.0{
+       total = old_qp;
+       total_credits = old_credits; 
+    }
 
     for (grades, credits) in gpa_data.iter(){
         if grades == "A"{
