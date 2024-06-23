@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const prevCalc = document.getElementById("prevCalc");
 
+  function addToGrades(){
+    const grade = document.getElementById("calculatedLetterGrade");
+    const className = document.getElementById("className");
+
+    if(grade.value && className.value){
+      invoke("create", {class: className.value, classGrade: grade.value})
+    }
+  }
+
   function calculateTotal() {
     const gradesAndWeights = [];
 
@@ -89,9 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("calculate")
     .addEventListener("click", calculateTotal);
 
-  document.getElementById("addClassBtn").addEventListener("click", function () {
-    const userInput = document.getElementById("userInput");
-    const clonedUserInput = userInput.cloneNode(true);
-    userInput.appendChild(clonedUserInput);
-  });
+  // document.getElementById("addClassBtn").addEventListener("click", function () {
+  //   const userInput = document.getElementById("userInput");
+  //   const clonedUserInput = userInput.cloneNode(true);
+  //   userInput.appendChild(clonedUserInput);
+  // });
+
+  document.getElementById("addToGradesBtn").addEventListener("click", addToGrades);
 });

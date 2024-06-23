@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalCredits = document.getElementById("totalCreditsInput");
   const prevSemGPA = document.getElementById("prevSemGPA");
   const prevSemCredits = document.getElementById("prevSemCredits");
+  const rowBody = document.getElementById("row");
 
   function calculate() {
     const gradesAndCredits = [];
@@ -44,6 +45,54 @@ document.addEventListener("DOMContentLoaded", () => {
 	prevSemGPA.value = "";
 	prevSemCredits.value = "";
   }
+
+  function addRow(){
+	const newRow = document.createElement("tr");
+	const grades = ['-', 'A', 'A-','B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F'];
+
+	const textCell = document.createElement("td");
+	const textInput = document.createElement("input");
+	const gradeSelectCell = document.createElement("td");
+	const gradeSelectInput = document.createElement("select");
+	const creditCell = document.createElement("td");
+	const creditInput = document.createElement("input");
+
+	textInput.name = "class";
+	gradeSelectInput.name = "grades";
+	gradeSelectInput.id = "grades";
+	creditInput.name = "credits";
+	creditInput.type = "number";
+	
+	for (let i = 0; i < grades.length; i ++){
+		const option = document.createElement("option");
+
+		option.value = grades[i];
+		option.text = grades[i];
+
+		gradeSelectInput.appendChild(option);
+	}
+
+	textCell.appendChild(textInput);
+	gradeSelectCell.appendChild(gradeSelectInput);
+	creditCell.appendChild(creditInput);
+
+	newRow.appendChild(textCell);
+	newRow.appendChild(gradeSelectCell);
+	newRow.appendChild(creditCell);
+
+	rowBody.appendChild(newRow);
+
+  }
+
+  function removeRow(rowIndex){
+	if(rowBody.rows.length > 4){
+		rowBody.deleteRow(rowIndex);
+	}
+  }
+  document.getElementById("deleteRow").addEventListener("click",function(){
+	removeRow(-1);
+  });
   document.getElementById("calculate").addEventListener("click", calculate);
   document.getElementById("clear").addEventListener("click", clear);
+  document.getElementById("addRow").addEventListener("click", addRow);
 });

@@ -15,6 +15,10 @@ body{
   color: white;
 }
 
+#grades{
+  width: 150px;
+}
+
 .sidenav {
   height: 100%;
   width: 160px;

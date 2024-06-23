@@ -1,6 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod database;
+use crate::database::create;
+use crate::database::delete;
 
 #[tauri::command]
 fn calculate_weighted_grade(grades: Vec<(f32, f32)>) -> f32{
@@ -112,9 +115,14 @@ fn calculate_gpa(gpa_data: Vec<(String, f32)>, old_qp: f32, old_credits: f32) ->
     return (total.to_string(), total_credits.to_string());
     
 }
-fn main() {
+#[tokio::main]
+async fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![calculate_weighted_grade, calculate_letter_grade, calculate_gpa])
+        .invoke_handler(tauri::generate_handler![calculate_weighted_grade,
+             calculate_letter_grade,
+             calculate_gpa,
+             create,
+             delete])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
