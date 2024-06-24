@@ -4,7 +4,7 @@
 mod database;
 use crate::database::create;
 use crate::database::delete;
-
+use crate::database::fetch_classes;
 #[tauri::command]
 fn calculate_weighted_grade(grades: Vec<(f32, f32)>) -> f32{
     let mut total_weighted_grades = 0.0;
@@ -122,7 +122,8 @@ async fn main() {
              calculate_letter_grade,
              calculate_gpa,
              create,
-             delete])
+             delete,
+             fetch_classes])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

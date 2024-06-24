@@ -11,6 +11,17 @@ async fn establish_connection() -> Result<sqlx::PgPool, Box<dyn Error>>{
 
 	Ok(pool)
 }
+
+#[tauri::command]
+pub async fn fetch_classes() -> Result<Vec<(String,)>, String> {
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	let classes: Vec<(String,)> = sqlx::query_as::<_,(String,)>("SELECT class FROM grade")
+		.fetch_all(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(classes)
+}
+
 #[tauri::command]
 pub async fn create(class: String, class_grade: String) -> Result<(), String>{
     let query = "INSERT INTO grade (class, class_grade) VALUES ($1, $2)";
@@ -38,3 +49,4 @@ pub async fn delete(class: String) -> Result<(), String>{
 
 	Ok(())
 }
+

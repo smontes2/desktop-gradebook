@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const prevCalc = document.getElementById("prevCalc");
 
+
   function addToGrades(){
     const grade = document.getElementById("calculatedLetterGrade");
     const className = document.getElementById("className");
