@@ -7,6 +7,7 @@ use crate::database::delete;
 use crate::database::fetch_classes;
 use crate::database::create_classes_table;
 use crate::database::fetch_assignment_data;
+
 #[tauri::command]
 fn calculate_weighted_grade(grades: Vec<(f32, f32)>) -> f32{
     let mut total_weighted_grades = 0.0;

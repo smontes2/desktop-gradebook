@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const prevCalc = document.getElementById("prevCalc");
   const existingClass = document.getElementById("existingClass");
-    
+  const addToGradesBtn = document.getElementById("addToGradesBtn");
+   
   
   invoke("fetch_classes").then((result) => {
     
@@ -28,10 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   function addToGrades(){
     const calculatedGrade = document.getElementById("calculatedLetterGrade");
-    const className = document.getElementById("className");
+    const existingClass = document.getElementById("existingClass");
+    let className;
+
+    if (existingClass.value == "-"){
+     className = document.getElementById("className");
+    }
+    else{
+      className = existingClass; 
+    }
 
     const assignmentArray = [];
     const gradeArray = [];
@@ -46,16 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     })
     
-
-    if(calculatedGrade.value && className.value){
       invoke("create_grade_table", {class: className.value, classGrade: calculatedGrade.value})
-    }
-
-    console.log(assignmentArray);
-    console.log(gradeArray);
-    console.log(weightArray);
-
-    invoke("create_classes_table" ,{class: className.value, classAssignment: assignmentArray, classGrade: gradeArray, classWeight: weightArray})
+      invoke("create_classes_table" ,{class: className.value, classAssignment: assignmentArray, classGrade: gradeArray, classWeight: weightArray})
    
     // location.reload();
 
@@ -137,6 +137,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function change(){
     const className = document.getElementById("existingClass");
     const assignmentElements = document.getElementsByName("assignment");
+
+    if (className.value != "-"){
+      addToGradesBtn.textContent = "Update";
+    }
+    else{
+      addToGradesBtn.textContent = "Add To Grades";
+      clear();
+    }
+
+   
 
     invoke("fetch_assignment_data", {class: className.value}).then((result) => {
      

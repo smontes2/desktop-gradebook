@@ -5,4 +5,4 @@ create table classes (
 	class_weights INT[]
 );
 
-create unique index classes_assignment_grade on classes (class_assignment, class_grade);
+create unique index classes_assignment_grade on classes (class);

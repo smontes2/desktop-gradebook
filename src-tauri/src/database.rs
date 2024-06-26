@@ -1,8 +1,5 @@
 use std::error::Error;
 
-// use sqlx::Row;
-
-
 async fn establish_connection() -> Result<sqlx::PgPool, Box<dyn Error>>{
 	let url = "postgres://postgres:postgres@localhost:5432/gradebook";
 	let pool = sqlx::postgres::PgPool::connect(url).await?;
@@ -40,8 +37,10 @@ pub async fn create_grade_table(class: String, class_grade: String) -> Result<()
 		.bind(&class).fetch_one(&pool).await.map_err(|e| e.to_string())?;
 
 	if exists.0 {
-		return Err("Class already exists".to_string());
+		update_grade_table(class, class_grade).await?;
+		return Ok(());
 	}
+
     sqlx::query("INSERT INTO grade (class, class_grade) VALUES ($1, $2)")
         .bind(&class)
         .bind(&class_grade).execute(&pool).await.map_err(|e| e.to_string())?;
@@ -57,12 +56,36 @@ pub async fn create_classes_table(class: String, class_assignment: Vec<String>, 
 		.bind(&class).fetch_one(&pool).await.map_err(|e| e.to_string())?;
 
 	if exist.0 {
-		return Err("Class already exists".to_string());
+		update_classes_table(class, &class_assignment, &class_grade, &class_weight).await?;
+		return Ok(());
 	}
 
 	sqlx::query("INSERT INTO classes (class, class_assignment, class_grade, class_weights) VALUES ($1, $2, $3, $4)")
 		.bind(&class).bind(&class_assignment).bind(&class_grade).bind(&class_weight)
 		.execute(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(())
+}
+
+async fn update_classes_table(class: String, class_assignment: &Vec<String>, class_grade: &Vec<i32>, class_weight: &Vec<i32>) -> Result<(), String>{
+	
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	sqlx::query("UPDATE classes SET class_assignment = $1, class_grade = $2, class_weights = $3 WHERE class = $4").bind(&class_assignment)
+		.bind(&class_grade).bind(&class_weight).bind(&class).execute(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(())
+}
+
+async fn update_grade_table(class: String, class_grade: String) -> Result<(), String>{
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	if class_grade == ""{
+		return Ok(());
+	}
+
+	sqlx::query("UPDATE grade SET class_grade = $1 WHERE class = $2").bind(&class_grade).bind(&class).execute(&pool)
+		.await.map_err(|e| e.to_string())?;
 
 	Ok(())
 }

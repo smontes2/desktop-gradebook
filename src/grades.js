@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function deleteClass(className) {
-    invoke("delete", { class: className });
+  async function deleteClass(className) {
+    await invoke("delete", { class: className });
     location.reload();
   }
 });
