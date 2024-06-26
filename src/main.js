@@ -12,15 +12,53 @@ document.addEventListener("DOMContentLoaded", () => {
     "calculatedNumberGrade"
   );
   const prevCalc = document.getElementById("prevCalc");
+  const existingClass = document.getElementById("existingClass");
+    
+  
+  invoke("fetch_classes").then((result) => {
+    
+    for(let i = 0; i < result.length; i ++){
+      const classOption = document.createElement("option");
+      
+      classOption.value = result[i][0];
+      classOption.text = result[i][0];
+      classOption.id = "classOption";
+
+      existingClass.appendChild(classOption);
+    }
+  });
 
 
   function addToGrades(){
-    const grade = document.getElementById("calculatedLetterGrade");
+    const calculatedGrade = document.getElementById("calculatedLetterGrade");
     const className = document.getElementById("className");
 
-    if(grade.value && className.value){
-      invoke("create", {class: className.value, classGrade: grade.value})
+    const assignmentArray = [];
+    const gradeArray = [];
+    const weightArray = [];
+
+    assignment.forEach((input, index) =>{
+      assignmentArray.push(input.value);
+      if(!isNaN(parseFloat(grade[index].value)) && !isNaN(parseFloat(weight[index].value))){
+        gradeArray.push(parseFloat(grade[index].value));
+        weightArray.push(parseFloat(weight[index].value));
+      }
+
+    })
+    
+
+    if(calculatedGrade.value && className.value){
+      invoke("create_grade_table", {class: className.value, classGrade: calculatedGrade.value})
     }
+
+    console.log(assignmentArray);
+    console.log(gradeArray);
+    console.log(weightArray);
+
+    invoke("create_classes_table" ,{class: className.value, classAssignment: assignmentArray, classGrade: gradeArray, classWeight: weightArray})
+   
+    // location.reload();
+
   }
 
   function calculateTotal() {
@@ -46,28 +84,37 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  function addRow() {
-    const newRow = document.createElement("tr");
+  function addRow(numberOfRows) {
+    for(let i = 0; i < numberOfRows; i ++){
+      const newRow = document.createElement("tr");
 
-    const textCell = document.createElement("td");
-    const textInput = document.createElement("input");
-    const gradeCell = document.createElement("td");
-    const gradeInput = document.createElement("input");
-    const weightCell = document.createElement("td");
-    const weightInput = document.createElement("input");
+      const textCell = document.createElement("td");
+      const textInput = document.createElement("input");
+      const gradeCell = document.createElement("td");
+      const gradeInput = document.createElement("input");
+      const weightCell = document.createElement("td");
+      const weightInput = document.createElement("input");
 
-    textInput.name = "assignment";
-    gradeInput.name = "grade";
-    weightInput.name = "weight";
+      textInput.name = "assignment";
+      gradeInput.name = "grade";
+      weightInput.name = "weight";
 
-    textCell.appendChild(textInput);
-    newRow.appendChild(textCell);
-    gradeCell.appendChild(gradeInput);
-    newRow.appendChild(gradeCell);
-    weightCell.appendChild(weightInput);
-    newRow.appendChild(weightCell);
+      textInput.id = "assignment";
+      gradeInput.id = "grade";
+      weightInput.id = "weight";
+      
+      gradeInput.type = "number";
+      weightInput.type = "number";
 
-    rowContainer.appendChild(newRow);
+      textCell.appendChild(textInput);
+      newRow.appendChild(textCell);
+      gradeCell.appendChild(gradeInput);
+      newRow.appendChild(gradeCell);
+      weightCell.appendChild(weightInput);
+      newRow.appendChild(weightCell);
+
+      rowContainer.appendChild(newRow); 
+    }
   }
 
   function removeRow(rowIndex) {
@@ -87,13 +134,32 @@ document.addEventListener("DOMContentLoaded", () => {
     calculatedNumberGrade.value = "";
   }
 
+  function change(){
+    const className = document.getElementById("existingClass");
+    const assignmentElements = document.getElementsByName("assignment");
+
+    invoke("fetch_assignment_data", {class: className.value}).then((result) => {
+     
+      if(result[0][0].length > 4){
+        addRow(result[0][0].length - 4);
+      }
+      assignmentElements.forEach((input, index)=>{
+        input.value = result[0][0][index];
+        grade[index].value = result[0][1][index];
+        weight[index].value = result[0][2][index];
+      })
+    });
+  }
+
   document.getElementById("remove_row").addEventListener("click", function () {
     removeRow(-1);
   });
 
   document.getElementById("clear").addEventListener("click", clear);
 
-  document.getElementById("add_row").addEventListener("click", addRow);
+  document.getElementById("add_row").addEventListener("click", function(){
+    addRow(1);
+  });
 
   document
     .getElementById("calculate")
@@ -106,4 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
 
   document.getElementById("addToGradesBtn").addEventListener("click", addToGrades);
+
+  document.getElementById("existingClass").addEventListener("change", change);
 });

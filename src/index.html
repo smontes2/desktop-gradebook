@@ -16,8 +16,12 @@
       <h2 id="title">Enter your grades below:</h2>
       <div id="userInput">
         <div id="classInput">
-          <label for="className">Class: </label>
+          <label for="className">New Class: </label>
           <input type="text" id="className" />
+          <label for="existingClass">Select Class: </label>
+          <select name="existingClass" id="existingClass" style="width: 150px;">
+            <option value="-" id="classOption">-</option>
+          </select>
         </div>
         <br />
         <div id="user_input">
@@ -29,24 +33,24 @@
             </tr>
             <tbody id="row">
               <tr>
-                <td><input type="text" name="assignment" /></td>
-                <td><input type="number" name="grade" /></td>
-                <td><input type="number" name="weight" /></td>
+                <td><input type="text" name="assignment" id="assignment" /></td>
+                <td><input type="number" name="grade" id="grade" /></td>
+                <td><input type="number" name="weight" id="weight"/></td>
               </tr>
               <tr>
-                <td><input type="text" name="assignment" /></td>
-                <td><input type="number" name="grade" /></td>
-                <td><input type="number" name="weight" /></td>
+                <td><input type="text" name="assignment" id="assignment" /></td>
+                <td><input type="number" name="grade" id="grade" /></td>
+                <td><input type="number" name="weight" id="weight"/></td>
               </tr>
               <tr>
-                <td><input type="text" name="assignment" /></td>
-                <td><input type="number" name="grade" /></td>
-                <td><input type="number" name="weight" /></td>
+                <td><input type="text" name="assignment" id="assignment" /></td>
+                <td><input type="number" name="grade" id="grade" /></td>
+                <td><input type="number" name="weight" id="weight"/></td>
               </tr>
               <tr>
-                <td><input type="text" name="assignment" /></td>
-                <td><input type="number" name="grade" /></td>
-                <td><input type="number" name="weight" /></td>
+                <td><input type="text" name="assignment" id="assignment" /></td>
+                <td><input type="number" name="grade" id="grade" /></td>
+                <td><input type="number" name="weight" id="weight"/></td>
               </tr>
             </tbody>
           </table>

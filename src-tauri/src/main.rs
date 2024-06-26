@@ -2,9 +2,11 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod database;
-use crate::database::create;
+use crate::database::create_grade_table;
 use crate::database::delete;
 use crate::database::fetch_classes;
+use crate::database::create_classes_table;
+use crate::database::fetch_assignment_data;
 #[tauri::command]
 fn calculate_weighted_grade(grades: Vec<(f32, f32)>) -> f32{
     let mut total_weighted_grades = 0.0;
@@ -121,9 +123,11 @@ async fn main() {
         .invoke_handler(tauri::generate_handler![calculate_weighted_grade,
              calculate_letter_grade,
              calculate_gpa,
-             create,
+             create_grade_table,
              delete,
-             fetch_classes])
+             fetch_classes,
+             create_classes_table,
+             fetch_assignment_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -1,6 +1,7 @@
 const { invoke } = window.__TAURI__.tauri;
 
 document.addEventListener("DOMContentLoaded", () => {
+  const classes = document.getElementsByName("class");
   const grades = document.getElementsByName("grades");
   const credits = document.getElementsByName("credits");
   const calculatedGPA = document.getElementById("calculatedGPA");
@@ -89,10 +90,23 @@ document.addEventListener("DOMContentLoaded", () => {
 		rowBody.deleteRow(rowIndex);
 	}
   }
+
+  function importGrades(){
+	invoke("fetch_classes").then((result) => {
+		for(let i = 0; i < result.length; i ++){
+			if (classes){
+				classes[i].value = result[i][0];
+				grades[i].value = result[i][1];
+			}
+	
+		}
+	})
+  }
   document.getElementById("deleteRow").addEventListener("click",function(){
 	removeRow(-1);
   });
   document.getElementById("calculate").addEventListener("click", calculate);
   document.getElementById("clear").addEventListener("click", clear);
   document.getElementById("addRow").addEventListener("click", addRow);
+  document.getElementById("importGradesBtn").addEventListener("click", importGrades);
 });

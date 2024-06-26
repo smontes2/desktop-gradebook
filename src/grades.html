@@ -13,11 +13,16 @@
 		<a href="grades.html">Grades</a>
 	</div>
 	<div class="main">
-		<h1>Enter a class to delete</h1>
-		<select name="classes" id="classes" style="width: 150px;">
-			<option value="-">-</option>
-		</select>
-		<button id="deleteBtn">Delete</button>
+		<div>
+			<table>
+				<tr>
+					<th>Class</th>
+					<th>Grade</th>
+				</tr>
+				<tbody id="classTable">
+				</tbody>
+			</table>	
+		</div>
 	</div>
 </body>
 <script type="module" src="grades.js"></script>
