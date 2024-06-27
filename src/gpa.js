@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function clear() {
     grades.forEach((input, index) => {
       input.value = "";
+	  classes[index].value = "";
       credits[index].value = "";
     });
 
@@ -97,11 +98,17 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (classes){
 				classes[i].value = result[i][0];
 				grades[i].value = result[i][1];
+				credits[i].value = 4;
 			}
 	
 		}
 	})
   }
+
+  function saveToGrades(){
+	invoke("create_gpa_table", {classGpa: calculatedGPA.value});
+  }
+
   document.getElementById("deleteRow").addEventListener("click",function(){
 	removeRow(-1);
   });
@@ -109,4 +116,5 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clear").addEventListener("click", clear);
   document.getElementById("addRow").addEventListener("click", addRow);
   document.getElementById("importGradesBtn").addEventListener("click", importGrades);
+  document.getElementById("saveBtn").addEventListener("click", saveToGrades);
 });

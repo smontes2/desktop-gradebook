@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevCalc = document.getElementById("prevCalc");
   const existingClass = document.getElementById("existingClass");
   const addToGradesBtn = document.getElementById("addToGradesBtn");
+
    
   
   invoke("fetch_classes").then((result) => {
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
       assignment[index].value = "";
     });
 
+    existingClass.value =  "-";
     calculatedLetterGrade.value = "";
     calculatedNumberGrade.value = "";
   }
@@ -145,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
       addToGradesBtn.textContent = "Add To Grades";
       clear();
     }
-
-   
 
     invoke("fetch_assignment_data", {class: className.value}).then((result) => {
      
@@ -182,6 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
 
   document.getElementById("addToGradesBtn").addEventListener("click", addToGrades);
-
+  document.getElementById("className").addEventListener("change", function(){
+    clear();
+  })
   document.getElementById("existingClass").addEventListener("change", change);
 });

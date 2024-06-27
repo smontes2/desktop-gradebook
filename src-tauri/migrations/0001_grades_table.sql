@@ -3,4 +3,9 @@ create table grade (
 	class_grade varchar not null
 );
 
-create unique index grade_class_grade on grade (class, class_grade);
+create unique index grade_class_grade on grade (class);
+
+create table gpa (
+	class_gpa varchar not null,
+	class_time varchar not null
+);

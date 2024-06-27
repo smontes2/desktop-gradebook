@@ -1,4 +1,5 @@
 use std::error::Error;
+use chrono::prelude::*;
 
 async fn establish_connection() -> Result<sqlx::PgPool, Box<dyn Error>>{
 	let url = "postgres://postgres:postgres@localhost:5432/gradebook";
@@ -27,6 +28,17 @@ pub async fn fetch_assignment_data(class: String) -> Result<Vec<(Vec<String>,Vec
 		.bind(class).fetch_all(&pool).await.map_err(|e| e.to_string())?;
 
 	Ok(assignment_data)
+}
+
+#[tauri::command]
+pub async fn fetch_gpa_data() -> Result<(String,String), String>{
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	let gpa: (String,String) = sqlx::query_as::<_,(String,String)>("SELECT class_gpa, class_time FROM gpa ORDER BY class_time DESC LIMIT 1").fetch_one(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(gpa)
+
+
 }
 
 #[tauri::command]
@@ -63,6 +75,16 @@ pub async fn create_classes_table(class: String, class_assignment: Vec<String>, 
 	sqlx::query("INSERT INTO classes (class, class_assignment, class_grade, class_weights) VALUES ($1, $2, $3, $4)")
 		.bind(&class).bind(&class_assignment).bind(&class_grade).bind(&class_weight)
 		.execute(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(())
+}
+
+#[tauri::command]
+pub async fn create_gpa_table(class_gpa: String) -> Result<(), String>{
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+	let local_time: DateTime<Local> = Local::now();
+
+	sqlx::query("INSERT INTO gpa (class_gpa, class_time) VALUES ($1, $2)").bind(&class_gpa).bind(&local_time).execute(&pool).await.map_err(|e| e.to_string())?;
 
 	Ok(())
 }
