@@ -31,14 +31,23 @@ pub async fn fetch_assignment_data(class: String) -> Result<Vec<(Vec<String>,Vec
 }
 
 #[tauri::command]
-pub async fn fetch_gpa_data() -> Result<(String,String), String>{
+pub async fn fetch_gpa_data() -> Result<(String,String, String), String>{
 	let pool = establish_connection().await.map_err(|e| e.to_string())?;
 
-	let gpa: (String,String) = sqlx::query_as::<_,(String,String)>("SELECT class_gpa, class_time FROM gpa ORDER BY class_time DESC LIMIT 1").fetch_one(&pool).await.map_err(|e| e.to_string())?;
+	let gpa: (String,String,String) = sqlx::query_as::<_,(String,String,String)>("SELECT class_gpa, class_time, class_credits FROM gpa ORDER BY class_time DESC LIMIT 1").fetch_one(&pool).await.map_err(|e| e.to_string())?;
 
 	Ok(gpa)
 
 
+}
+
+#[tauri::command]
+pub async fn fetch_all_gpa_data() -> Result<Vec<(String, String, String)>, String> {
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	let gpa: Vec<(String, String, String)> = sqlx::query_as::<_, (String, String, String)>("SELECT class_gpa, class_time, class_credits FROM gpa ORDER BY class_time").fetch_all(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(gpa)
 }
 
 #[tauri::command]
@@ -80,11 +89,11 @@ pub async fn create_classes_table(class: String, class_assignment: Vec<String>, 
 }
 
 #[tauri::command]
-pub async fn create_gpa_table(class_gpa: String) -> Result<(), String>{
+pub async fn create_gpa_table(class_gpa: String, class_credits: String) -> Result<(), String>{
 	let pool = establish_connection().await.map_err(|e| e.to_string())?;
 	let local_time: DateTime<Local> = Local::now();
 
-	sqlx::query("INSERT INTO gpa (class_gpa, class_time) VALUES ($1, $2)").bind(&class_gpa).bind(&local_time).execute(&pool).await.map_err(|e| e.to_string())?;
+	sqlx::query("INSERT INTO gpa (class_gpa, class_time, class_credits) VALUES ($1, $2, $3)").bind(&class_gpa).bind(&local_time).bind(&class_credits).execute(&pool).await.map_err(|e| e.to_string())?;
 
 	Ok(())
 }
@@ -120,6 +129,15 @@ pub async fn delete(class: String) -> Result<(), String>{
 	sqlx::query(query).bind(&class).execute(&pool).await.map_err(|e| e.to_string())?;
 
 	sqlx::query("DELETE FROM classes WHERE class = $1").bind(&class).execute(&pool).await.map_err(|e| e.to_string())?;
+
+	Ok(())
+}
+
+#[tauri::command]
+pub async fn reset_gpa_data() -> Result<(), String> {
+	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+	
+	sqlx::query("DELETE FROM gpa").execute(&pool).await.map_err(|e| e.to_string())?;
 
 	Ok(())
 }

@@ -9,12 +9,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevSemGPA = document.getElementById("prevSemGPA");
   const prevSemCredits = document.getElementById("prevSemCredits");
   const rowBody = document.getElementById("row");
+  const checkOptional = document.getElementById("checkOptional");
+
+  invoke("fetch_gpa_data").then((result) => {
+	prevSemGPA.value = result[0];
+	prevSemCredits.value = result[2];
+  })
 
   function calculate() {
     const gradesAndCredits = [];
 	let currentQP = 0;
 	let currentCredits = 0;
-	if (prevSemGPA.value != 0 && prevSemCredits.value != 0){
+	if (prevSemGPA.value != 0 && prevSemCredits.value != 0 && checkOptional.checked){
 		currentQP = prevSemGPA.value * prevSemCredits.value;
 		currentCredits = parseFloat(prevSemCredits.value);
 	}
@@ -106,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveToGrades(){
-	invoke("create_gpa_table", {classGpa: calculatedGPA.value});
+	invoke("create_gpa_table", {classGpa: calculatedGPA.value.substring(0,4), classCredits: totalCredits.value});
   }
 
   document.getElementById("deleteRow").addEventListener("click",function(){
