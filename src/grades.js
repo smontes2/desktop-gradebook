@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   invoke("fetch_all_gpa_data").then((result) =>{
+	
 	for(let i = 0; i < result.length - 1; i ++){
 		const gpaDataRow = document.createElement("tr");
 		const gpaDataData = document.createElement("td");
@@ -78,6 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function getGpa(){
 	await invoke("fetch_gpa_data").then((result) =>{
+		if(result == null){
+			return;
+		}
 		currentGpa.value = result[0].substring(0,4);
 		currentCredits.value = result[2];
 		time.textContent = "Here are your grades as of " + result[1].substring(0,11);

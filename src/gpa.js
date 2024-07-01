@@ -11,7 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const rowBody = document.getElementById("row");
   const checkOptional = document.getElementById("checkOptional");
 
+  
   invoke("fetch_gpa_data").then((result) => {
+	if(result == null){
+		return;
+	}
 	prevSemGPA.value = result[0];
 	prevSemCredits.value = result[2];
   })

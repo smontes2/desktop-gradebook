@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else{
       addToGradesBtn.textContent = "Add To Grades";
       clear();
+      return;
     }
 
     invoke("fetch_assignment_data", {class: className.value}).then((result) => {

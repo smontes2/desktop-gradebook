@@ -1203,9 +1203,10 @@ dependencies = [
 
 [[package]]
 name = "gradebook"
-version = "0.0.0"
+version = "1.0.0"
 dependencies = [
  "chrono",
+ "once_cell",
  "serde",
  "serde_json",
  "sqlx",

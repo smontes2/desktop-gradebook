@@ -31,12 +31,18 @@ pub async fn fetch_assignment_data(class: String) -> Result<Vec<(Vec<String>,Vec
 }
 
 #[tauri::command]
-pub async fn fetch_gpa_data() -> Result<(String,String, String), String>{
+pub async fn fetch_gpa_data() -> Result<Option<(String,String, String)>, String>{
 	let pool = establish_connection().await.map_err(|e| e.to_string())?;
+
+	let is_empty: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM gpa").fetch_one(&pool).await.map_err(|e| e.to_string())?;
+
+	if is_empty.0 == 0{
+		return Ok(None)
+	}
 
 	let gpa: (String,String,String) = sqlx::query_as::<_,(String,String,String)>("SELECT class_gpa, class_time, class_credits FROM gpa ORDER BY class_time DESC LIMIT 1").fetch_one(&pool).await.map_err(|e| e.to_string())?;
 
-	Ok(gpa)
+	Ok(Some(gpa))
 
 
 }
